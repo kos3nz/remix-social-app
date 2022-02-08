@@ -1,0 +1,37 @@
+{
+  "private": true,
+  "name": "remix-blog",
+  "description": "",
+  "license": "",
+  "scripts": {
+    "build": "remix build",
+    "dev": "remix dev",
+    "postinstall": "remix setup node",
+    "start": "remix-serve build"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.9.1",
+    "@remix-run/react": "^1.1.3",
+    "@remix-run/serve": "^1.1.3",
+    "bcryptjs": "^2.4.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "remix": "^1.1.3"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.1.3",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "prisma": "^3.9.1",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false
+}
