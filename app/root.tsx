@@ -1,17 +1,21 @@
 import {
-  Link,
+  ActionFunction,
   Links,
   LiveReload,
   Meta,
   Outlet,
+  redirect,
   Scripts,
   ScrollRestoration,
   useLoaderData,
 } from 'remix';
 import type { MetaFunction, LinksFunction, LoaderFunction } from 'remix';
 import type { ReactNode } from 'react';
-import globalStylesUrl from '~/styles/global.css';
+import globalStyles from '~/styles/global.css';
+import tailwindStyles from '~/tailwind.css';
 import { getUser } from '~/utils/session.server';
+import { colorSchemeCookie, getColorScheme } from './themeCookie';
+import Header from './components/Header';
 
 export const meta: MetaFunction = () => {
   const title = 'Remix blog';
@@ -24,13 +28,29 @@ export const meta: MetaFunction = () => {
 export const links: LinksFunction = () => [
   {
     rel: 'stylesheet',
-    href: globalStylesUrl,
+    href: globalStyles,
+  },
+  {
+    rel: 'stylesheet',
+    href: tailwindStyles,
   },
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const colorScheme = await getColorScheme(request);
   const user = await getUser(request);
-  return { user };
+  return { user, colorScheme };
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const currentColorScheme = await getColorScheme(request);
+  const newColorScheme = currentColorScheme === 'light' ? 'dark' : 'light';
+
+  return redirect(request.url, {
+    headers: {
+      'Set-Cookie': await colorSchemeCookie.serialize(newColorScheme),
+    },
+  });
 };
 
 export default function App() {
@@ -46,8 +66,10 @@ export default function App() {
 type DocumentProps = { children: ReactNode };
 
 function Document({ children }: DocumentProps) {
+  const { colorScheme } = useLoaderData();
+
   return (
-    <html lang="en">
+    <html lang="en" className={colorScheme}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -67,14 +89,17 @@ function Document({ children }: DocumentProps) {
 type LayoutProps = { children?: ReactNode };
 
 function Layout({ children }: LayoutProps) {
-  const { user } = useLoaderData();
+  const { user, colorScheme } = useLoaderData();
 
   return (
     <>
-      <nav className="navbar">
+      {/* <nav className="navbar">
         <Link to="/" className="logo">
-          Remx
+          Remix
         </Link>
+        <Form method="post">
+          <button type="submit">Change Theme</button>
+        </Form>
 
         <ul className="nav">
           <li>
@@ -94,9 +119,10 @@ function Layout({ children }: LayoutProps) {
             </li>
           )}
         </ul>
-      </nav>
+      </nav> */}
+      <Header theme={colorScheme} />
 
-      <div className="container">{children}</div>
+      <div className="h-full">{children}</div>
     </>
   );
 }

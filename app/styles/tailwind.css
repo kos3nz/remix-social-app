@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-100;
+  }
+
+  img {
+    @apply h-full w-full;
+  }
+}
+
+@layer components {
+  .intent {
+    @apply mx-auto flex max-w-md cursor-pointer items-center justify-between rounded-lg bg-white p-4 text-black transition-all duration-300 hover:shadow-xl xl:mx-0;
+  }
+}
