@@ -19,3 +19,5 @@ export const getColorScheme = async (request: Request) => {
   // or system preferred theme or default theme
   return userSelectedColorScheme ?? systemPreferredColorScheme ?? 'light';
 };
+
+export type ColorScheme = 'light' | 'dark';

@@ -3,17 +3,126 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-gray-100;
+  /* Box sizing rules */
+  *,
+  *::before,
+  *::after {
+    @apply box-border;
   }
 
-  img {
-    @apply h-full w-full;
+  /* Remove default margin */
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    @apply m-0;
+  }
+
+  /* Set core root defaults */
+  html:focus-within {
+    @apply scroll-smooth;
+  }
+
+  /* Set screen size */
+  html,
+  body {
+    @apply h-full;
+  }
+
+  /* Set core body defaults */
+  body {
+    @apply bg-gray-50 leading-6 antialiased dark:bg-black;
+  }
+
+  /* Make images easier to work with */
+  img,
+  picture {
+    @apply h-full w-full object-cover;
+  }
+
+  /* A elements that don't have a class get default styles */
+  a:not([class]) {
+    text-decoration-skip-ink: auto;
+  }
+
+  /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+  ul[role='list'],
+  ol[role='list'] {
+    @apply list-none;
+  }
+
+  /* Inherit fonts for inputs and buttons */
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+  @media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+      @apply scroll-auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
 @layer components {
   .intent {
     @apply mx-auto flex max-w-md cursor-pointer items-center justify-between rounded-lg bg-white p-4 text-black transition-all duration-300 hover:shadow-xl xl:mx-0;
+  }
+
+  /* Form */
+  .form-control {
+    @apply relative;
+  }
+
+  .form-input {
+    @apply w-full rounded-sm p-3 outline-none ring-1 ring-gray-800 transition-all duration-200 focus:ring-2 focus:ring-sky-600 dark:text-black;
+  }
+
+  .form-label {
+    @apply absolute top-3 left-1 z-10 px-2 transition-transform duration-200 dark:text-black/80;
+  }
+
+  .form-button {
+    @apply flex w-full items-center justify-center gap-x-2 rounded-full py-3 text-sm font-semibold transition-all duration-200;
+  }
+
+  .error-message {
+    @apply mt-2 text-sm font-bold text-red-600;
+  }
+
+  /* Sidebar */
+  .sidebar-button {
+    @apply cursor-pointer border-t border-gray-300 py-3 px-4 opacity-80 transition-opacity hover:opacity-100 dark:border-gray-500;
+  }
+
+  .sidebar-link {
+    @apply cursor-pointer text-[13px] font-medium text-sky-500 hover:underline;
+  }
+
+  /* Feed Posts */
+  .input-button {
+    @apply flex cursor-pointer items-center space-x-2 text-sm font-medium;
+  }
+
+  .post-button {
+    @apply flex w-full cursor-pointer items-center justify-center space-x-2 rounded py-2.5 font-medium transition ease-out hover:bg-black/10 dark:hover:bg-black/20;
   }
 }

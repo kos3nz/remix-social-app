@@ -1,4 +1,5 @@
 import { IconType } from 'react-icons';
+import Avatar from './Avatar';
 
 type Props = {
   Icon: IconType;
@@ -28,7 +29,7 @@ export default function HeaderLink({
       } ${active && 'text-black dark:text-white'}`}
     >
       {avatar ? (
-        <Icon className="!h-7 !w-7 lg:!-mb-1" aria-hidden />
+        <Avatar size="sm" backgroundColor="#0284c7" />
       ) : (
         <Icon aria-hidden />
       )}

@@ -5,12 +5,6 @@
   box-sizing: border-box;
 }
 
-/* Set screen size */
-html,
-body {
-  height: 100%;
-}
-
 /* Remove default margin */
 body,
 h1,
@@ -36,9 +30,14 @@ html:focus-within {
   scroll-behavior: smooth;
 }
 
+/* Set screen size */
+html,
+body {
+  height: 100%;
+}
+
 /* Set core body defaults */
 body {
-  min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
 }

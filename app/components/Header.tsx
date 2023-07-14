@@ -1,3 +1,4 @@
+import { useFetcher } from 'remix';
 import { motion } from 'framer-motion';
 import { BsLinkedin, BsPersonCircle } from 'react-icons/bs';
 import { HiSearch } from 'react-icons/hi';
@@ -10,15 +11,16 @@ import {
   MdPeople,
 } from 'react-icons/md';
 import HeaderLink from './HeaderLink';
-import { Form } from 'remix';
 
 interface HeaderProps {
   theme: 'light' | 'dark';
 }
 
 const Header = ({ theme }: HeaderProps) => {
+  const changeTheme = useFetcher();
+
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-around bg-white py-1.5 px-3 focus-within:shadow-lg dark:bg-[#1D2226]">
+    <header className="fixed top-0 z-40 flex w-full items-center justify-around bg-white py-1.5 px-3  transition-shadow duration-500 focus-within:shadow-lg dark:bg-[#1D2226]">
       {/* Left */}
       <div className="flex w-full max-w-xs items-center space-x-2">
         <div>
@@ -32,7 +34,7 @@ const Header = ({ theme }: HeaderProps) => {
           <input
             type="text"
             placeholder="Search"
-            className="hidden flex-grow bg-transparent text-sm placeholder-black/70 focus:outline-none dark:placeholder-white/75 md:inline-flex"
+            className="hidden flex-grow bg-transparent text-sm placeholder-black/70 focus:outline-none dark:text-white/75 dark:placeholder-white/75 dark:caret-white/75 md:inline-flex"
           />
         </div>
       </div>
@@ -44,17 +46,24 @@ const Header = ({ theme }: HeaderProps) => {
         <HeaderLink Icon={MdOutlineBusiness} text="Jobs" feed hidden />
         <HeaderLink Icon={MdMessage} text="Messaging" feed />
         <HeaderLink Icon={MdNotifications} text="Notifications" feed />
-        <HeaderLink Icon={BsPersonCircle} text="Me" feed hidden />
         <HeaderLink Icon={AiOutlineAppstore} text="Work" feed hidden />
+        {/* <HeaderLink Icon={BsPersonCircle} feed hidden avatar /> */}
 
         {/* Dark mode toggle */}
-        <Form method="post" className="rounded-full">
+        <changeTheme.Form
+          action="/api/theme"
+          method="post"
+          replace
+          className="rounded-full"
+        >
           <button
+            type="submit"
+            name="_action"
+            value="CHANGE_THEME"
             aria-label={`Change to ${
               theme === 'light' ? 'dark' : 'light'
             } mode`}
             title={`Change to ${theme === 'light' ? 'dark' : 'light'} mode`}
-            type="submit"
             className={`group relative flex h-6 w-12 flex-shrink-0 cursor-pointer items-center rounded-full bg-gray-600 px-0.5 focus:outline-none ${
               theme === 'dark' ? 'justify-end' : 'justify-start'
             }`}
@@ -72,7 +81,7 @@ const Header = ({ theme }: HeaderProps) => {
               transition={{ type: 'spring', stiffness: 600, damping: 30 }}
             />
           </button>
-        </Form>
+        </changeTheme.Form>
       </div>
     </header>
   );
